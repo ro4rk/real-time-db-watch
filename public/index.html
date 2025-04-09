@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Real-time DB Watch</title>
+</head>
+<body>
+  <h1>🧠 Real-time DB Watch</h1>
+  <p>Waiting for changes...</p>
+  <ul id="changes"></ul>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const changesList = document.getElementById('changes');
+
+    socket.on('db-change', (change) => {
+      const li = document.createElement('li');
+      li.textContent = `Change: ${JSON.stringify(change)}`;
+      changesList.appendChild(li);
+    });
+  </script>
+</body>
+</html>
