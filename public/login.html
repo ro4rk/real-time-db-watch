@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Merienda', cursive;
+            overflow: hidden;
+            background: black;
+            color: white;
+        }
+
+        .stars-layer {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 2s infinite ease-in-out alternate;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes popFade {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 2.5rem 3.5rem;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 255, 255, 0.2);
+            animation: popFade 1s ease-out;
+        }
+
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #00ffee;
+            text-shadow: 0 0 8px #00ffee;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+
+        button {
+            margin-top: 1rem;
+            padding: 0.75rem 2rem;
+            background-color: #00ffe0;
+            border: none;
+            color: black;
+            font-size: 1.1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Protest Guerrilla', sans-serif;
+        }
+
+        button:hover {
+            background-color: #00bb99;
+        }
+
+        .error {
+            color: #ff5555;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .center {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <style>
+        body {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        body.fade-in {
+            opacity: 1;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Merienda&family=Protest+Guerrilla&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="stars-layer" id="stars-layer"></div>
+
+    <div class="center">
+        <div class="login-container">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Enter your username" required />
+                <input type="password" id="password" placeholder="Enter your password" required />
+                <button type="submit">Enter</button>
+                <div class="error" id="errorMsg"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Star background
+        const starsLayer = document.getElementById("stars-layer");
+        const totalStars = 100;
+        for (let i = 0; i < totalStars; i++) {
+            const star = document.createElement("div");
+            star.classList.add("star");
+            star.style.top = Math.random() * 100 + "vh";
+            star.style.left = Math.random() * 100 + "vw";
+            star.style.animationDuration = (Math.random() * 3 + 2) + "s";
+            starsLayer.appendChild(star);
+        }
+
+       
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (!username || !password) {
+                errorMsg.textContent = "Please fill in both fields.";
+                return;
+            }
+
+            if (username === "admin" && password === "1234") {
+                sessionStorage.setItem("loggedIn", "true");
+                sessionStorage.setItem("username", username);
+                window.location.href = "index.html";
+            } else {
+                errorMsg.textContent = "Invalid username or password.";
+            }
+        });
+    </script>
+    <!-- Orbiting Planets -->
+    <div class="orbit-system">
+        <div class="sun"></div>
+        <div class="planet planet1"></div>
+        <div class="planet planet2"></div>
+        <div class="planet planet3"></div>
+    </div>
+
+    <style>
+        .orbit-system {
+            position: fixed;
+            bottom: 10%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .sun {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: gold;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px 10px gold;
+        }
+
+        .planet {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            transform-origin: center -80px;
+        }
+
+        .planet1,
+        .planet2,
+        .planet3 {
+            width: 8px;
+            height: 8px;
+            background: cyan;
+            animation: orbit 10s linear infinite;
+        }
+
+        .planet2 {
+            transform-origin: center -60px;
+            background: lightgreen;
+            animation-duration: 14s;
+        }
+
+        .planet3 {
+            transform-origin: center -40px;
+            background: lightpink;
+            animation-duration: 20s;
+        }
+
+        @keyframes orbit {
+            from {
+                transform: rotate(0deg) translateY(-80px) rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg) translateY(-80px) rotate(-360deg);
+            }
+        }
+    </style>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('fade-in');
+        });
+    </script>
+</body>
+
+</html>
